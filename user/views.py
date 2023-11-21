@@ -45,7 +45,7 @@ class Register(APIView):
         
         send_mail(
             subject="Verify your email",
-            message=f'Click the following link to verify your email: http://localhost:3000/verify/{verification_token}',
+            message=f'Click the following link to verify your email: https://user-auth-87zk.onrender.com/api/verify/{verification_token}',
             from_email='yasnapolyanaa123@gmail.com', 
             recipient_list=[request.data['email']]
         )
@@ -134,7 +134,7 @@ class ForgotPassword(APIView):
         PasswordReset.objects.create(email=email,token=token)
         send_mail(
             subject="Reset your password",
-            message='Clik <a href="http://localhost:3000/reset/'+ token + '"> here</a> to reset your password',
+            message='Clik <a href="https://user-auth-87zk.onrender.com/api/pswrd-reset/'+ token + '"> here</a> to reset your password',
             from_email=from_email,
             recipient_list=[email]
         )

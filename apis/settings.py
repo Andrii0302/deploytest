@@ -148,11 +148,11 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
-CORS_ALLOW_HEADERS = [
-    'access-control-allow-origin',
-    'jwt',  # Add your custom header here
-    # Add other allowed headers as needed
-]
+# CORS_ALLOW_HEADERS = [
+#     'access-control-allow-origin',
+#     'jwt',  # Add your custom header here
+#     # Add other allowed headers as needed
+# ]
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT=587

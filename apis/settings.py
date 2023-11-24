@@ -152,10 +152,12 @@ CORS_ALLOW_HEADERS = ['*']
 #     'access-control-allow-origin',
 #     'jwt',  # Add your custom header here
 #     # Add other allowed headers as needed
-
+CORS_ORIGIN_WHITELIST = (
+    'https://localhost:3000'
+)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_HOST_USER='yasnapolyanaa123@gmail.com'
-EMAIL_HOST_PASSWORD=''
+EMAIL_HOST_PASSWORD='qnwm cuev fsnh unbn'

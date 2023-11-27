@@ -126,10 +126,20 @@ class UserView(APIView):
         return Response(serializer.data)
 class Logout(APIView):
     def delete(self, request):
+        auth_header = request.headers.get('Authorization')
+
+        if not auth_header or not auth_header.startswith('Bearer '):
+            raise AuthenticationFailed("Invalid Authorization header")
+
+        token = auth_header.split(' ')[1]
+
+        if not token:
+            raise AuthenticationFailed("Invalid token in Authorization header")
+
         response = Response(data={'message': 'success'}, status=status.HTTP_200_OK)
-        response.delete_cookie('jwt')
-        response.data={
-            'message':'succes'
+        response.delete_cookie('jwt')  
+        response.data = {
+            'message': 'success'
         }
         return response
 

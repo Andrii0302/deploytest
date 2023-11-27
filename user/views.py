@@ -74,14 +74,13 @@ class EmailVerification(APIView):
             raise NotFound("User not found")
 class Login(APIView):
     def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
+        email = request.data.get('email')
+        password = request.data.get('password')
 
         user = User.objects.filter(email=email).first()
         if user is None:
             raise AuthenticationFailed("User not found")
 
-        
         if not user.email_verified:
             raise AuthenticationFailed("Email not verified. Please verify your email.")
 
@@ -94,19 +93,21 @@ class Login(APIView):
             'iat': datetime.datetime.utcnow()
         }
         token = jwt.encode(payload, 'secret', algorithm='HS256')
-        response = Response()
 
-        response.set_cookie(key='jwt', value=token, httponly=True)
-        response.data = {
+        response_data = {
             'jwt': token
         }
 
-        return response
+        return Response(response_data)
 
 class UserView(APIView):
     def get(self, request):
-       
-        token = request.COOKIES.get('jwt')
+        auth_header = request.headers.get('Authorization')
+
+        if not auth_header or not auth_header.startswith('Bearer '):
+            raise AuthenticationFailed("Invalid Authorization header")
+
+        token = auth_header.split(' ')[1]
 
         if not token:
             raise AuthenticationFailed("Unauthenticated")
@@ -117,7 +118,7 @@ class UserView(APIView):
             raise AuthenticationFailed("Unauthenticated")
 
         user = User.objects.filter(id=payload['id']).first()
-        
+
         if not user:
             raise AuthenticationFailed("User not found")
 

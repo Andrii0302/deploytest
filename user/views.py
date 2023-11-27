@@ -151,7 +151,7 @@ class ForgotPassword(APIView):
         PasswordReset.objects.create(email=email,token=token)
         send_mail(
             subject="Reset your password",
-            message='Clik <a href="http://localhost:3000/api/pswrd-reset/'+ token + '"> here</a> to reset your password',
+            message='Clik <a href="http://localhost:3000/pswrd-reset/'+ token + '"> here</a> to reset your password',
             from_email=from_email,
             recipient_list=[email]
         )

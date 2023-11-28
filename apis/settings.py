@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'apis.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-# postgres://helpmeplease:5VBHDQ1zDS9LjFPp5z8XOSxSwC0fNTz6@dpg-cld65v7gsrdc73fivh1g-a.oregon-postgres.render.com/iwanttodie
+# postgres://me1:5xaHoQoikHyyEpSbPYfaLeAcgeb2MnOv@dpg-cle8vtvgsrdc739qg77g-a.oregon-postgres.render.com/newbase_5vzo
 
 DATABASES = {
     'default': {

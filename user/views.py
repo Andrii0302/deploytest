@@ -45,7 +45,7 @@ class Register(APIView):
         
         send_mail(
             subject="Verify your email",
-            message=f'Click the following link to verify your email: http://localhost:3000/api/verify/{verification_token}',
+            message=f'Click the following link to verify your email: http://localhost:3000/login/{verification_token}',
             from_email='yasnapolyanaa123@gmail.com', 
             recipient_list=[request.data['email']]
         )

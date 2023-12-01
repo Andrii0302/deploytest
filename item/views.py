@@ -12,7 +12,6 @@ from django.http import Http404
 #APi for category
 
 class CategoryAPIView(APIView):
-    parser_classes = (MultiPartParser, FormParser)
     serializer_class = CategorySerializer
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -65,7 +64,6 @@ class CategoryIDView(APIView):
 # API for items
 
 class ItemAPIView(APIView):
-    parser_classes = (MultiPartParser, FormParser)
     serializer_class = ItemSerializer
     
     def post(self, request):
@@ -145,7 +143,6 @@ class CommentAPI(APIView):
 
 class CommentIDView(APIView):
     serializer_class = CommentSerializer
-    serializer_put = CommentPUTSerializer
 
     def get(self, request, item_pk, comment_pk):
         comment = get_object_or_404(Comment, id=comment_pk)

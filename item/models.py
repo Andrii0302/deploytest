@@ -1,4 +1,5 @@
 from django.db import models
+from user.models import User
     
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -8,6 +9,7 @@ class Category(models.Model):
 
 
 class Item(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     COURSE = (
         ('1 курс бакалавру', '1 курс бакалавру'),
         ('2 курс бакалавру', '2 курс бакалавру'),
@@ -25,3 +27,13 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class Comment(models.Model):
+    item = models.ForeignKey(Item, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    body = models.TextField(null=False, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.item.name, self.user)

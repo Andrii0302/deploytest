@@ -17,9 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG = True
 
 # ALLOWED_HOSTS = []
-SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = os.environ.get("DEBUG","False").lower()=="true"
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ['*']
+DEBUG = False
+SECRET_KEY = 'django-insecure-&kei%n1%tkl@5nfrwvw741iq3d(rcqq9(874pf_p%w1v%l#6)9'
 
 # Application definition
 
@@ -85,15 +85,15 @@ WSGI_APPLICATION = 'apis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'special_for_andriy',
+        'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'valiklol1234',
-        'HOST': '34.118.78.43',
-        'PORT': '5432',
+        'PASSWORD': 'E6bCDe5ag-GG1dd2B-E-d-g5a6gf13gg',
+        'HOST': 'monorail.proxy.rlwy.net',
+        'PORT': '17745',
     }
 }
-database_url=os.environ.get("DATABASE_URL")
-DATABASES['default']=dj_database_url.parse(database_url)
+#database_url=os.environ.get("DATABASE_URL")
+DATABASES['default']=dj_database_url.parse("postgresql://postgres:E6bCDe5ag-GG1dd2B-E-d-g5a6gf13gg@monorail.proxy.rlwy.net:17745/railway")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

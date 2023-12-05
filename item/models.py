@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from django.core.validators import MinLengthValidator
     
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -25,6 +26,12 @@ class Item(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def get_username(self):
+        return self.user.username
+
+    def get_category(self):
+        return self.category.name
+
     def __str__(self):
         return self.name
     
@@ -32,8 +39,14 @@ class Item(models.Model):
 class Comment(models.Model):
     item = models.ForeignKey(Item, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    body = models.TextField(null=False, blank=True)
+    body = models.TextField(validators=[MinLengthValidator(1)])
     date_added = models.DateTimeField(auto_now_add=True)
+
+    def get_username(self):
+        return self.user.username
+    
+    def get_item(self): 
+        return self.item.name
 
     def __str__(self):
         return '%s - %s' % (self.item.name, self.user)

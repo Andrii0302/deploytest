@@ -16,5 +16,7 @@ Pillow==9.5.0
 psycopg2==2.9.9
 django-storages==1.9.1
 google-cloud-storage==1.30.0
+google-auth==2.14.1
+google-api-core==2.15.0
 
 

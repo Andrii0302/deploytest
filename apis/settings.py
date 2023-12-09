@@ -17,10 +17,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['*']
-DEBUG = False
-SECRET_KEY = 'django-insecure-&kei%n1%tkl@5nfrwvw741iq3d(rcqq9(874pf_p%w1v%l#6)9'
-
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+# DEBUG = False
+DEBUG = os.environ.get("DEBUG","False").lower()=="true"
+# SECRET_KEY = 'django-insecure-&kei%n1%tkl@5nfrwvw741iq3d(rcqq9(874pf_p%w1v%l#6)9'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 # Application definition
 
 INSTALLED_APPS = [
@@ -92,8 +94,8 @@ DATABASES = {
         'PORT': '17745',
     }
 }
-#database_url=os.environ.get("DATABASE_URL")
-DATABASES['default']=dj_database_url.parse("postgresql://postgres:E6bCDe5ag-GG1dd2B-E-d-g5a6gf13gg@monorail.proxy.rlwy.net:17745/railway")
+database_url=os.environ.get("DATABASE_URL")
+# DATABASES['default']=dj_database_url.parse("postgresql://postgres:E6bCDe5ag-GG1dd2B-E-d-g5a6gf13gg@monorail.proxy.rlwy.net:17745/railway")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -136,7 +136,7 @@ class CommentAPI(APIView):
         )
     
     def get(self, request, pk):
-        comments = get_list_or_404(Comment)
+        comments = get_list_or_404(Comment, item=pk)
         serializer = self.serializer_class(comments, many=True)
         return Response(serializer.data)
     

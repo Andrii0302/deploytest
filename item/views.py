@@ -3,7 +3,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Item, Category, Comment
-from .serializers import ItemSerializer, CategorySerializer, CommentSerializer, CommentPUTSerializer
+from .serializers import ItemSerializer, ItemGetSerializer, ItemPutSerializer, CategorySerializer, CommentSerializer, CommentGetSerializer, CommentPUTSerializer
 from django.shortcuts import get_object_or_404
 from django.shortcuts import get_list_or_404
 from django.http import Http404
@@ -65,7 +65,8 @@ class CategoryIDView(APIView):
 
 class ItemAPIView(APIView):
     serializer_class = ItemSerializer
-    
+    serializer_get = ItemGetSerializer
+
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -84,26 +85,40 @@ class ItemAPIView(APIView):
     
     def get(self, request):
         items = get_list_or_404(Item)
-        serializer = self.serializer_class(items, many=True)
+        serializer = self.serializer_get(items, many=True)
         return Response(serializer.data)
 
 
 class ItemIDView(APIView):
     serializer_class = ItemSerializer
+    serializer_get = ItemGetSerializer
+    serializer_put = ItemPutSerializer
 
     def get(self, request, pk):
         items = get_object_or_404(Item, id=pk)
-        serializer = ItemSerializer(items, many=False)
+        serializer = self.serializer_get(items, many=False)
         return Response(serializer.data)
+    
+    #def post(self, request, pk):
+     #   instance = get_list_or_404(Item, id=pk)
+     #   serializer = self.get_serializer(instance, data=request.data, partial=True)
+      #  serializer.is_valid(raise_exception=True)
+      #  serializer.save()
+      #  return Response(serializer.data)
+
 
     def put(self, request, pk):
         item = get_object_or_404(Item, id=pk)
-        serializer = self.serializer_class(instance=item, data=request.data)
-
+        data = {'pdf': item.pdf, **request.data}
+        serializer = self.serializer_put(instance=item, data=data)
         if serializer.is_valid():
             serializer.save()
-
-        return Response(serializer.data)
+        #self.perform_update(serializer)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_OK
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, pk):
         try:
@@ -119,6 +134,7 @@ class ItemIDView(APIView):
 
 class CommentAPI(APIView):
     serializer_class = CommentSerializer
+    serializer_get = CommentGetSerializer
     
     def post(self, request, pk):
         data = {'item': pk, **request.data}
@@ -137,16 +153,17 @@ class CommentAPI(APIView):
     
     def get(self, request, pk):
         comments = get_list_or_404(Comment, item=pk)
-        serializer = self.serializer_class(comments, many=True)
+        serializer = self.serializer_get(comments, many=True)
         return Response(serializer.data)
     
 
 class CommentIDView(APIView):
     serializer_class = CommentSerializer
+    serializer_get = CommentGetSerializer
 
     def get(self, request, item_pk, comment_pk):
         comment = get_object_or_404(Comment, id=comment_pk)
-        serializer = CommentSerializer(comment, many=False)
+        serializer = self.serializer_get(comment, many=False)
         return Response(serializer.data)
     
     def put(self, request, item_pk, comment_pk):

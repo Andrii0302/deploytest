@@ -151,7 +151,7 @@ class ForgotPassword(APIView):
         PasswordReset.objects.create(email=email,token=token)
         send_mail(
             subject="Reset your password",
-            message='Clik <a href="http://localhost:3000/pswrd-reset/'+ token + '"> here</a> to reset your password',
+            message='Clik <a href="http://localhost:3000/pswrd-reset/'+ token + '"> here</a> to reset your password or click <a href="https://steady-tapioca-8e39f4.netlify.app/pswrd-reset/'+ token + '"> here</a> ',
             from_email=from_email,
             recipient_list=[email]
         )

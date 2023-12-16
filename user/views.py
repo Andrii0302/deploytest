@@ -45,7 +45,7 @@ class Register(APIView):
         
         send_mail(
             subject="Verify your email",
-            message=f'Click the following link to verify your email: http://localhost:3000/login/{verification_token}',
+            message=f'Click the following link to verify your email: http://localhost:3000/login/{verification_token} or https://steady-tapioca-8e39f4.netlify.app/login/{verification_token}',
             from_email='yasnapolyanaa123@gmail.com', 
             recipient_list=[request.data['email']]
         )
@@ -89,7 +89,7 @@ class Login(APIView):
 
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=720),
             'iat': datetime.datetime.utcnow()
         }
         token = jwt.encode(payload, 'secret', algorithm='HS256')
@@ -151,7 +151,7 @@ class ForgotPassword(APIView):
         PasswordReset.objects.create(email=email,token=token)
         send_mail(
             subject="Reset your password",
-            message='Clik <a href="http://localhost:3000/pswrd-reset/'+ token + '"> here</a> to reset your password',
+            message='Clik <a href="http://localhost:3000/pswrd-reset/'+ token + '"> here</a> to reset your password or click <a href="https://steady-tapioca-8e39f4.netlify.app/pswrd-reset/'+ token + '"> here</a> ',
             from_email=from_email,
             recipient_list=[email]
         )

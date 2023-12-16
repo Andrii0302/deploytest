@@ -98,27 +98,21 @@ class ItemIDView(APIView):
         items = get_object_or_404(Item, id=pk)
         serializer = self.serializer_get(items, many=False)
         return Response(serializer.data)
-    
-    #def post(self, request, pk):
-     #   instance = get_list_or_404(Item, id=pk)
-     #   serializer = self.get_serializer(instance, data=request.data, partial=True)
-      #  serializer.is_valid(raise_exception=True)
-      #  serializer.save()
-      #  return Response(serializer.data)
 
-
-    def put(self, request, pk):
+    def post(self, request, pk):
         item = get_object_or_404(Item, id=pk)
-        data = {'pdf': item.pdf, **request.data}
-        serializer = self.serializer_put(instance=item, data=data)
+        serializer = self.serializer_class(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
-        #self.perform_update(serializer)
             return Response(
                 serializer.data,
-                status=status.HTTP_201_OK
+                status=status.HTTP_201_CREATED
             )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
     
     def delete(self, request, pk):
         try:
@@ -127,8 +121,15 @@ class ItemIDView(APIView):
             return Response('Item was deleted!')
         except Http404:
                 return Response('Item with the specified ID does not exist.', status=404)
-    
+        
+class ItemIdUser(APIView):
+    serializer_get = ItemGetSerializer
 
+    def get(self, request, pk):
+        items = get_list_or_404(Item, user=pk)
+        serializer = self.serializer_get(items, many=True)
+        return Response(serializer.data)
+    
 
 # API for Comments
 

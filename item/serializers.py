@@ -14,7 +14,7 @@ class ItemSerializer(serializers.ModelSerializer):
 class ItemPutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ('name', 'description', 'course', 'category', 'pdf')
+        fields = '__all__'
 
 class ItemGetSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='user.name')

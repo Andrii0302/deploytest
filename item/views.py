@@ -28,7 +28,7 @@ class CategoryAPIView(APIView):
         )
         
     def get(self, request):
-        categorys = get_list_or_404(Category)
+        categorys = Category.objects.all()
         serializer = self.serializer_class(categorys, many=True)
         return Response(serializer.data)
     
@@ -36,7 +36,7 @@ class CategoryIDView(APIView):
     serializer_class = CategorySerializer
 
     def get(self, request, pk):
-        category = get_object_or_404(Category, id=pk)
+        category = Category.objects.get(id=pk)
         serializer = CategorySerializer(category, many=False)
         return Response(serializer.data)
 
@@ -84,7 +84,7 @@ class ItemAPIView(APIView):
         )
     
     def get(self, request):
-        items = get_list_or_404(Item)
+        items = Item.objects.all()
         serializer = self.serializer_get(items, many=True)
         return Response(serializer.data)
 
@@ -95,7 +95,7 @@ class ItemIDView(APIView):
     serializer_put = ItemPutSerializer
 
     def get(self, request, pk):
-        items = get_object_or_404(Item, id=pk)
+        items = Item.objects.get(id=pk)
         serializer = self.serializer_get(items, many=False)
         return Response(serializer.data)
 
@@ -126,7 +126,7 @@ class ItemIdUser(APIView):
     serializer_get = ItemGetSerializer
 
     def get(self, request, pk):
-        items = get_list_or_404(Item, user=pk)
+        items = Item.objects.filter(user=pk)
         serializer = self.serializer_get(items, many=True)
         return Response(serializer.data)
     
@@ -153,7 +153,7 @@ class CommentAPI(APIView):
         )
     
     def get(self, request, pk):
-        comments = get_list_or_404(Comment, item=pk)
+        comments = Comment.objects.filter(item=pk)
         serializer = self.serializer_get(comments, many=True)
         return Response(serializer.data)
     
@@ -163,7 +163,7 @@ class CommentIDView(APIView):
     serializer_get = CommentGetSerializer
 
     def get(self, request, item_pk, comment_pk):
-        comment = get_object_or_404(Comment, id=comment_pk)
+        comment = Comment.objects.get(id=comment_pk)
         serializer = self.serializer_get(comment, many=False)
         return Response(serializer.data)
     

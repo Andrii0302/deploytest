@@ -138,8 +138,8 @@ GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     os.path.join(BASE_DIR, 'credential.json')
 )
 DEFAULT_FILE_STORAGE='apis.gcloud.GoogleCloudMediaFileStorage'
-GS_PROJECT_ID = 'sapient-depot-404113'
-GS_BUCKET_NAME = 'softserve_bucket'
+GS_PROJECT_ID = 'lunar-works-413614'
+GS_BUCKET_NAME = 'bucket-items'
 MEDIA_ROOT = "media/"
 UPLOAD_ROOT = 'media/uploads/'
 MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
